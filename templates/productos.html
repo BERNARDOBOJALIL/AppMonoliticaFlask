@@ -5,123 +5,502 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FAF7F0 0%, #F5F1E8 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #333;
         }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        h1 {
+            color: #8B7355;
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .header-actions {
+            display: flex;
+            gap: 12px;
         }
         .btn {
-            padding: 10px 15px;
+            padding: 10px 20px;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-block;
         }
         .btn-primary {
-            background-color: #007bff;
-            color: white;
+            background-color: #D4C5A9;
+            color: #5A4A3A;
+        }
+        .btn-primary:hover {
+            background-color: #B8A989;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 115, 85, 0.2);
         }
         .btn-secondary {
-            background-color: #6c757d;
-            color: white;
+            background-color: transparent;
+            border: 1px solid #D4C5A9;
+            color: #8B7355;
+        }
+        .btn-secondary:hover {
+            background-color: #FAF7F0;
         }
         .btn-warning {
-            background-color: #ffc107;
-            color: black;
+            background-color: #E8DCC4;
+            color: #5A4A3A;
+            font-size: 13px;
+            padding: 8px 16px;
+        }
+        .btn-warning:hover {
+            background-color: #D4C5A9;
         }
         .btn-danger {
-            background-color: #dc3545;
+            background-color: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #EF5350;
+            font-size: 13px;
+            padding: 8px 16px;
+        }
+        .btn-danger:hover {
+            background-color: #EF5350;
             color: white;
+        }
+        .btn-light {
+            background-color: #FFFFFF;
+            color: #8B7355;
+            border: 1px solid #E8DCC4;
+        }
+        .btn-light:hover {
+            background-color: #FAF7F0;
+        }
+        .btn-success {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #66BB6A;
+        }
+        .btn-success:hover {
+            background-color: #66BB6A;
+            color: white;
+        }
+        .btn-active {
+            background-color: #B8A989;
+            color: white;
+            font-weight: 600;
+        }
+        .btn-active {
+            background-color: #B8A989;
+            color: white;
+            font-weight: 600;
+        }
+        .search-filter-bar {
+            background: #FFFFFF;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(139, 115, 85, 0.08);
+        }
+        .search-filter-content {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-box {
+            flex: 1;
+            min-width: 280px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E8DCC4;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #FAF7F0;
+            color: #5A4A3A;
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: #B8A989;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(212, 197, 169, 0.1);
+        }
+        .search-box input::placeholder {
+            color: #B8A989;
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #FFFFFF;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(139, 115, 85, 0.08);
         }
         th, td {
-            padding: 12px;
+            padding: 16px 20px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
         }
         th {
-            background-color: #f8f9fa;
-            font-weight: bold;
+            background-color: #F5F1E8;
+            font-weight: 600;
+            color: #5A4A3A;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        tr:hover {
-            background-color: #f5f5f5;
+        td {
+            color: #5A4A3A;
+            border-bottom: 1px solid #F5F1E8;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+        tbody tr:hover {
+            background-color: #FAF7F0;
         }
         .actions {
             display: flex;
+            gap: 8px;
+        }
+        .info-text {
+            text-align: center;
+            color: #8B7355;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .status-active {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+        .status-inactive {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .pagination a, .pagination span {
+            padding: 10px 16px;
+            border: 1px solid #E8DCC4;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #8B7355;
+            background: #FFFFFF;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        .pagination a:hover {
+            background-color: #FAF7F0;
+            border-color: #B8A989;
+        }
+        .pagination .current {
+            background-color: #D4C5A9;
+            color: #5A4A3A;
+            border-color: #D4C5A9;
+            font-weight: 600;
+        }
+        .pagination .disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .pagination .disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        /* Estilos de popup para mensajes flash */
+        .flash-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 400px;
+        }
+        .flash-popup {
+            margin-bottom: 10px;
+            padding: 15px 45px 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(139, 115, 85, 0.15);
+            display: flex;
+            align-items: center;
             gap: 10px;
+            animation: slideInRight 0.4s ease-out, fadeIn 0.4s ease-out;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .flash-popup.closing {
+            animation: slideOutRight 0.3s ease-in, fadeOut 0.3s ease-in;
+        }
+        .flash-popup::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .flash-popup.alert-success {
+            background-color: #F5F1E8;
+            color: #5A4A3A;
+            border-left: 4px solid #B8A989;
+        }
+        .flash-popup.alert-success::before {
+            background-color: #B8A989;
+        }
+        .flash-popup.alert-error {
+            background-color: #FAF7F0;
+            color: #8B7355;
+            border-left: 4px solid #D4A574;
+        }
+        .flash-popup.alert-error::before {
+            background-color: #D4A574;
+        }
+        .flash-popup.alert-info {
+            background-color: #FAF7F0;
+            color: #5A4A3A;
+            border-left: 4px solid #C9B896;
+        }
+        .flash-popup.alert-info::before {
+            background-color: #C9B896;
+        }
+        .flash-close {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: inherit;
+            opacity: 0.5;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            line-height: 1;
+        }
+        .flash-close:hover {
+            opacity: 1;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(400px); }
+            to { transform: translateX(0); }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); }
+            to { transform: translateX(400px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Gestión de Productos</h1>
-        <div>
-            <a href="/" class="btn btn-secondary">Inicio</a>
-            <a href="/logout" class="btn btn-secondary">Cerrar Sesión</a>
-        </div>
-    </div>
-    
-    <a href="/productos/nuevo" class="btn btn-primary">+ Nuevo Producto</a>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if productos %}
-                {% for producto in productos %}
-                <tr>
-                    <td>{{ producto.id }}</td>
-                    <td>{{ producto.nombre }}</td>
-                    <td>${{ "%.2f"|format(producto.precio) }}</td>
-                    <td>{{ producto.stock }}</td>
-                    <td>
-                        {% if producto.activo == 1 %}
-                            <span style="color: green; font-weight: bold;">✓ Activo</span>
-                        {% else %}
-                            <span style="color: red; font-weight: bold;">✗ Inactivo</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <div class="actions">
-                            <a href="/productos/{{ producto.id }}/editar" class="btn btn-warning">Editar</a>
-                            <form method="POST" action="/productos/{{ producto.id }}/eliminar" 
-                                  onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
+    <!-- Mensajes Flash Popup -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container" id="flashContainer">
+                {% for category, message in messages %}
+                    <div class="flash-popup alert-{{ category }}">
+                        {{ message }}
+                        <button class="flash-close" onclick="closeFlash(this)">&times;</button>
+                    </div>
                 {% endfor %}
-            {% else %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <div class="header">
+            <h1>Gestión de Productos</h1>
+            <div class="header-actions">
+                <a href="/" class="btn btn-secondary">Inicio</a>
+                <a href="/logout" class="btn btn-secondary">Cerrar Sesión</a>
+            </div>
+        </div>
+    
+        <!-- Barra de búsqueda y filtros -->
+        <div class="search-filter-bar">
+            <div class="search-filter-content">
+                <form method="GET" action="/productos" class="search-box">
+                    <input type="text" name="buscar" placeholder="Buscar por nombre..." 
+                           value="{{ buscar if buscar else '' }}">
+                    <input type="hidden" name="filtro" value="{{ filtro_activo }}">
+                </form>
+                
+                <div class="filter-buttons">
+                    <a href="/productos?filtro=todos&buscar={{ buscar if buscar else '' }}" 
+                       class="btn btn-light {% if filtro_activo == 'todos' %}btn-active{% endif %}">
+                        Todos
+                    </a>
+                    <a href="/productos?filtro=activos&buscar={{ buscar if buscar else '' }}" 
+                       class="btn btn-success {% if filtro_activo == 'activos' %}btn-active{% endif %}">
+                        Activos
+                    </a>
+                    <a href="/productos?filtro=inactivos&buscar={{ buscar if buscar else '' }}" 
+                       class="btn btn-secondary {% if filtro_activo == 'inactivos' %}btn-active{% endif %}">
+                        Inactivos
+                    </a>
+                </div>
+                
+                <a href="/productos/nuevo" class="btn btn-primary">+ Nuevo</a>
+            </div>
+        </div>
+
+        <div class="info-text">
+            Mostrando {{ productos|length }} de {{ total_productos }} productos
+        </div>
+    
+        <table>
+            <thead>
                 <tr>
-                    <td colspan="6" style="text-align: center; padding: 30px;">
-                        No hay productos registrados
-                    </td>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
-            {% endif %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% if productos %}
+                    {% for producto in productos %}
+                    <tr>
+                        <td>{{ producto.id }}</td>
+                        <td>{{ producto.nombre }}</td>
+                        <td>${{ "%.2f"|format(producto.precio) }}</td>
+                        <td>{{ producto.stock }}</td>
+                        <td>
+                            {% if producto.activo == 1 %}
+                                <span class="status-badge status-active">✓ Activo</span>
+                            {% else %}
+                                <span class="status-badge status-inactive">✗ Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <a href="/productos/{{ producto.id }}/editar" class="btn btn-warning">Editar</a>
+                                <form method="POST" action="/productos/{{ producto.id }}/eliminar" 
+                                      onsubmit="return confirm('¿Estás seguro de eliminar este producto?')" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: #8B7355;">
+                            {% if buscar %}
+                                No se encontraron productos con "{{ buscar }}"
+                            {% else %}
+                                No hay productos registrados
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <!-- Paginación -->
+        {% if total_paginas > 1 %}
+        <div class="pagination">
+            <a href="/productos?pagina=1&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}" 
+               class="{% if pagina == 1 %}disabled{% endif %}">« Primera</a>
+            
+            <a href="/productos?pagina={{ pagina - 1 }}&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}" 
+               class="{% if pagina == 1 %}disabled{% endif %}">‹ Anterior</a>
+            
+            {% for p in range(1, total_paginas + 1) %}
+                {% if p == pagina %}
+                    <span class="current">{{ p }}</span>
+                {% elif (p >= pagina - 2 and p <= pagina + 2) or p == 1 or p == total_paginas %}
+                    <a href="/productos?pagina={{ p }}&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}">{{ p }}</a>
+                {% elif p == pagina - 3 or p == pagina + 3 %}
+                    <span style="border: none; background: none; color: #B8A989;">...</span>
+                {% endif %}
+            {% endfor %}
+            
+            <a href="/productos?pagina={{ pagina + 1 }}&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}" 
+               class="{% if pagina == total_paginas %}disabled{% endif %}">Siguiente ›</a>
+            
+            <a href="/productos?pagina={{ total_paginas }}&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}" 
+               class="{% if pagina == total_paginas %}disabled{% endif %}">Última »</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Auto-cerrar mensajes flash después de 5 segundos
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-popup');
+            flashMessages.forEach(function(flash, index) {
+                setTimeout(function() {
+                    closeFlash(flash.querySelector('.flash-close'));
+                }, 5000 + (index * 500)); // Añade 500ms de retraso por cada mensaje adicional
+            });
+        });
+
+        function closeFlash(button) {
+            const flashElement = button.parentElement;
+            flashElement.classList.add('closing');
+            setTimeout(function() {
+                flashElement.remove();
+                // Remover el contenedor si no quedan mensajes
+                const container = document.getElementById('flashContainer');
+                if (container && container.children.length === 0) {
+                    container.remove();
+                }
+            }, 300);
+        }
+    </script>
 </body>
 </html>

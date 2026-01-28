@@ -1,39 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 50px auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FAF7F0 0%, #F5F1E8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
+        .container {
+            background: #FFFFFF;
+            max-width: 500px;
+            width: 100%;
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(139, 115, 85, 0.1);
+            text-align: center;
+        }
         h1 {
-            color: #333;
+            color: #8B7355;
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
         }
         nav {
-            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
         nav a {
             text-decoration: none;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            margin-right: 10px;
+            padding: 14px 24px;
+            background-color: #D4C5A9;
+            color: #5A4A3A;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
         }
         nav a:hover {
-            background-color: #0056b3;
+            background-color: #B8A989;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 115, 85, 0.2);
+        }
+        .logout {
+            background-color: transparent;
+            border: 1px solid #D4C5A9;
+            color: #8B7355;
+        }
+        .logout:hover {
+            background-color: #FAF7F0;
         }
     </style>
 </head>
 <body>
-    <h1>Bienvenido {{ user }}</h1>
-
-    <nav>
-        <a href="/productos">Productos</a>
-        <a href="/logout">Cerrar sesión</a>
-    </nav>
+    <div class="container">
+        <h1>Bienvenido, {{ user }}</h1>
+        <nav>
+            <a href="/productos">Gestionar Productos</a>
+            <a href="/logout" class="logout">Cerrar sesión</a>
+        </nav>
+    </div>
 </body>
 </html>

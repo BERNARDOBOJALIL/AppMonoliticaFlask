@@ -5,71 +5,231 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
-            max-width: 400px;
-            margin: 100px auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FAF7F0 0%, #F5F1E8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
+        .login-container {
+            background: #FFFFFF;
+            max-width: 420px;
+            width: 100%;
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(139, 115, 85, 0.1);
+        }
         h2 {
-            color: #333;
-            margin-bottom: 20px;
+            color: #8B7355;
+            font-size: 26px;
+            font-weight: 300;
+            margin-bottom: 35px;
+            text-align: center;
+            letter-spacing: 1px;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 24px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #5A4A3A;
+            font-size: 14px;
         }
-        input {
+        input[type="text"],
+        input[type="password"] {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
+            padding: 12px 16px;
+            border: 1px solid #E8DCC4;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #FAF7F0;
+            color: #5A4A3A;
+        }
+        input:focus {
+            outline: none;
+            border-color: #B8A989;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(212, 197, 169, 0.1);
         }
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
+            padding: 14px;
+            background-color: #D4C5A9;
+            color: #5A4A3A;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #B8A989;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 115, 85, 0.2);
         }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
+        /* Estilos de popup para mensajes flash */
+        .flash-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 400px;
+        }
+        .flash-popup {
+            margin-bottom: 10px;
+            padding: 15px 45px 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(139, 115, 85, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideInRight 0.4s ease-out, fadeIn 0.4s ease-out;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .flash-popup.closing {
+            animation: slideOutRight 0.3s ease-in, fadeOut 0.3s ease-in;
+        }
+        .flash-popup::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .flash-popup.alert-success {
+            background-color: #F5F1E8;
+            color: #5A4A3A;
+            border-left: 4px solid #B8A989;
+        }
+        .flash-popup.alert-success::before {
+            background-color: #B8A989;
+        }
+        .flash-popup.alert-error {
+            background-color: #FAF7F0;
+            color: #8B7355;
+            border-left: 4px solid #D4A574;
+        }
+        .flash-popup.alert-error::before {
+            background-color: #D4A574;
+        }
+        .flash-popup.alert-info {
+            background-color: #FAF7F0;
+            color: #5A4A3A;
+            border-left: 4px solid #C9B896;
+        }
+        .flash-popup.alert-info::before {
+            background-color: #C9B896;
+        }
+        .flash-close {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: inherit;
+            opacity: 0.5;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            line-height: 1;
+        }
+        .flash-close:hover {
+            opacity: 1;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(400px); }
+            to { transform: translateX(0); }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); }
+            to { transform: translateX(400px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
     </style>
 </head>
 <body>
     <h2>Inicio de Sesión</h2>
 
-    {% if error %}
-    <div class="error">{{ error }}</div>
-    {% endif %}
+    <!-- Mensajes Flash Popup -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container" id="flashContainer">
+                {% for category, message in messages %}
+                    <div class="flash-popup alert-{{ category }}">
+                        {{ message }}
+                        <button class="flash-close" onclick="closeFlash(this)">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
-    <form method="POST">
-        <div class="form-group">
-            <label for="username">Usuario:</label>
-            <input type="text" id="username" name="username" required autofocus>
-        </div>
-        
-        <div class="form-group">
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        
-        <button type="submit">Entrar</button>
-    </form>
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" required autofocus>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <script>
+        // Auto-cerrar mensajes flash después de 5 segundos
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-popup');
+            flashMessages.forEach(function(flash, index) {
+                setTimeout(function() {
+                    closeFlash(flash.querySelector('.flash-close'));
+                }, 5000 + (index * 500)); // Añade 500ms de retraso por cada mensaje adicional
+            });
+        });
+
+        function closeFlash(button) {
+            const flashElement = button.parentElement;
+            flashElement.classList.add('closing');
+            setTimeout(function() {
+                flashElement.remove();
+                // Remover el contenedor si no quedan mensajes
+                const container = document.getElementById('flashContainer');
+                if (container && container.children.length === 0) {
+                    container.remove();
+                }
+            }, 300);
+        }
+    </script>
 </body>
 </html>
