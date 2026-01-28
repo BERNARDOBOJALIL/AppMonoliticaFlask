@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .errores {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+        .errores ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .actions {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ titulo }}</h1>
+    
+    {% if errores %}
+    <div class="errores">
+        <strong>Errores:</strong>
+        <ul>
+            {% for error in errores %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" 
+                   value="{{ producto.nombre if producto else nombre if nombre else '' }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="precio">Precio:</label>
+            <input type="number" id="precio" name="precio" step="0.01" min="0"
+                   value="{{ producto.precio if producto else precio if precio else '' }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" min="0"
+                   value="{{ producto.stock if producto else stock if stock else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="activo" name="activo" value="1"
+                       {% if producto %}
+                           {% if producto.activo == 1 %}checked{% endif %}
+                       {% else %}
+                           checked
+                       {% endif %}>
+                Activo
+            </label>
+        </div>
+        
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="/productos" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</body>
+</html>
