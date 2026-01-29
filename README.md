@@ -26,6 +26,76 @@ Migraría la lógica del CRUD de productos y el acceso a la base de datos. Esto 
 3. ¿Qué problemas surgen si dos equipos trabajan en paralelo en el mismo monolito?
 Conflictos en archivos, dependencia entre frontend y backend y menor escalabilidad.
 
-Ejecución
-1. pip install flask
-2. python app.py
+## Requisitos previos
+- Python 3.7 o superior
+
+## Dependencias
+El proyecto utiliza las siguientes dependencias de Python:
+```
+blinker==1.9.0
+click==8.3.1
+colorama==0.4.6
+Flask==3.1.2
+itsdangerous==2.2.0
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+Werkzeug==3.1.5
+```
+
+## Instrucciones de instalación
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone https://github.com/BERNARDOBOJALIL/AppMonoliticaFlask.git
+   cd AppMonoliticaFlask
+   ```
+
+2. **Crear un entorno virtual (recomendado)**
+   ```bash
+   python -m venv venv
+   ```
+
+3. **Activar el entorno virtual**
+   - En Windows:
+     ```bash
+     venv\Scripts\activate
+     ```
+   - En Linux/Mac:
+     ```bash
+     source venv/bin/activate
+     ```
+
+4. **Instalar las dependencias**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Instrucciones de ejecución
+
+1. **Ejecutar la aplicación**
+   ```bash
+   python app.py
+   ```
+
+2. **Acceder a la aplicación**
+   - Abrir un navegador web y visitar: `http://localhost:5000`
+
+3. **Credenciales de acceso ficticias de prueba**
+   - Usuario: admin
+   - Contraseña: 1234
+
+## Estructura del proyecto
+```
+AppMonolitica/
+│
+├── app.py                 # Aplicación principal Flask
+├── db.py                  # Configuración y gestión de base de datos
+├── requirements.txt       # Dependencias del proyecto
+├── README.md             # Documentación del proyecto
+└── templates/            # Plantillas HTML
+    ├── index.html
+    ├── login.html
+    ├── producto_form.html
+    └── productos.html
+```
+
