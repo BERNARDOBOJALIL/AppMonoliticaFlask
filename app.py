@@ -132,15 +132,19 @@ def productos_nuevo():
                                  nombre=nombre, precio=precio, stock=stock, 
                                  titulo="Nuevo Producto", accion="nuevo")
         
+        categoria = request.form.get("categoria", "Miscelneo").strip()
+        if not categoria:
+            categoria = "Miscelaneo"
+        
         conn = get_db()
         conn.execute(
-            "INSERT INTO productOs (nombre, precio, stock, activo) VALUES (?, ?, ?, ?)",
-            (nombre, precio_num, stock_num, activo)
+            "INSERT INTO productOs (nombre, precio, stock, activo, categoria) VALUES (?, ?, ?, ?, ?)",
+            (nombre, precio_num, stock_num, activo, categoria)
         )
         conn.commit()
         conn.close()
         estado = "activo" if activo else "inactivo"
-        flash(f"Producto '{nombre}' creado exitosamente (${precio_num:.2f} - Stock: {stock_num} - Estado: {estado})", "success")
+        flash(f"Producto '{nombre}' creado exitosamente (${precio_num:.2f} - Stock: {stock_num} - Estado: {estado} - Categoría: {categoria})", "success")
         return redirect(url_for("productos"))
     
     return render_template("producto_form.html", titulo="Nuevo Producto", accion="nuevo")
@@ -187,14 +191,17 @@ def productos_editar(id):
             return render_template("producto_form.html", errores=errores, 
                                  producto=producto, titulo="Editar Producto", accion="editar")
         
+        categoria = request.form.get("categoria").strip()
+
+        
         conn.execute(
-            "UPDATE productOs SET nombre=?, precio=?, stock=?, activo=? WHERE id=?",
-            (nombre, precio_num, stock_num, activo, id)
+            "UPDATE productOs SET nombre=?, precio=?, stock=?, activo=?, categoria=? WHERE id=?",
+            (nombre, precio_num, stock_num, activo, categoria, id)
         )
         conn.commit()
         conn.close()
         estado = "activo" if activo else "inactivo"
-        flash(f"Producto '{nombre}' actualizado correctamente. Nuevo estado: {estado}, Precio: ${precio_num:.2f}, Stock: {stock_num}", "success")
+        flash(f"Producto '{nombre}' actualizado correctamente. Nuevo estado: {estado}, Precio: ${precio_num:.2f}, Stock: {stock_num}, Categoría: {categoria}", "success")
         return redirect(url_for("productos"))
     
     producto = conn.execute("SELECT * FROM productOs WHERE id=?", (id,)).fetchone()
