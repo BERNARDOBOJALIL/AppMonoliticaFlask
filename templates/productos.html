@@ -362,36 +362,36 @@
         <div class="header">
             <h1>Gestión de Productos</h1>
             <div class="header-actions">
-                <a href="/" class="btn btn-secondary">Inicio</a>
-                <a href="/logout" class="btn btn-secondary">Cerrar Sesión</a>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">Inicio</a>
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary">Cerrar Sesión</a>
             </div>
         </div>
     
         <!-- Barra de búsqueda y filtros -->
         <div class="search-filter-bar">
             <div class="search-filter-content">
-                <form method="GET" action="/productos" class="search-box">
+                <form method="GET" action="{{ url_for('productos.productos') }}" class="search-box">
                     <input type="text" name="buscar" placeholder="Buscar por nombre..." 
                            value="{{ buscar if buscar else '' }}">
                     <input type="hidden" name="filtro" value="{{ filtro_activo }}">
                 </form>
                 
                 <div class="filter-buttons">
-                    <a href="/productos?filtro=todos&buscar={{ buscar if buscar else '' }}" 
+                    <a href="{{ url_for('productos.productos', filtro='todos', buscar=buscar if buscar else '') }}" 
                        class="btn btn-light {% if filtro_activo == 'todos' %}btn-active{% endif %}">
                         Todos
                     </a>
-                    <a href="/productos?filtro=activos&buscar={{ buscar if buscar else '' }}" 
+                    <a href="{{ url_for('productos.productos', filtro='activos', buscar=buscar if buscar else '') }}" 
                        class="btn btn-success {% if filtro_activo == 'activos' %}btn-active{% endif %}">
                         Activos
                     </a>
-                    <a href="/productos?filtro=inactivos&buscar={{ buscar if buscar else '' }}" 
+                    <a href="{{ url_for('productos.productos', filtro='inactivos', buscar=buscar if buscar else '') }}" 
                        class="btn btn-secondary {% if filtro_activo == 'inactivos' %}btn-active{% endif %}">
                         Inactivos
                     </a>
                 </div>
                 
-                <a href="/productos/nuevo" class="btn btn-primary">+ Nuevo</a>
+                <a href="{{ url_for('productos.productos_nuevo') }}" class="btn btn-primary">+ Nuevo</a>
             </div>
         </div>
 
@@ -429,8 +429,8 @@
                         </td>
                         <td>
                             <div class="actions">
-                                <a href="/productos/{{ producto.id }}/editar" class="btn btn-warning">Editar</a>
-                                <form method="POST" action="/productos/{{ producto.id }}/eliminar" 
+                                <a href="{{ url_for('productos.productos_editar', id=producto.id) }}" class="btn btn-warning">Editar</a>
+                                <form method="POST" action="{{ url_for('productos.productos_eliminar', id=producto.id) }}" 
                                       onsubmit="return confirm('¿Estás seguro de eliminar este producto?')" style="display: inline;">
                                     <button type="submit" class="btn btn-danger">Eliminar</button>
                                 </form>
@@ -455,26 +455,26 @@
         <!-- Paginación -->
         {% if total_paginas > 1 %}
         <div class="pagination">
-            <a href="/productos?pagina=1&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}" 
+            <a href="{{ url_for('productos.productos', pagina=1, buscar=buscar if buscar else '', filtro=filtro_activo) }}" 
                class="{% if pagina == 1 %}disabled{% endif %}">« Primera</a>
             
-            <a href="/productos?pagina={{ pagina - 1 }}&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}" 
+            <a href="{{ url_for('productos.productos', pagina=pagina - 1, buscar=buscar if buscar else '', filtro=filtro_activo) }}" 
                class="{% if pagina == 1 %}disabled{% endif %}">‹ Anterior</a>
             
             {% for p in range(1, total_paginas + 1) %}
                 {% if p == pagina %}
                     <span class="current">{{ p }}</span>
                 {% elif (p >= pagina - 2 and p <= pagina + 2) or p == 1 or p == total_paginas %}
-                    <a href="/productos?pagina={{ p }}&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}">{{ p }}</a>
+                    <a href="{{ url_for('productos.productos', pagina=p, buscar=buscar if buscar else '', filtro=filtro_activo) }}">{{ p }}</a>
                 {% elif p == pagina - 3 or p == pagina + 3 %}
                     <span style="border: none; background: none; color: #B8A989;">...</span>
                 {% endif %}
             {% endfor %}
             
-            <a href="/productos?pagina={{ pagina + 1 }}&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}" 
+            <a href="{{ url_for('productos.productos', pagina=pagina + 1, buscar=buscar if buscar else '', filtro=filtro_activo) }}" 
                class="{% if pagina == total_paginas %}disabled{% endif %}">Siguiente ›</a>
             
-            <a href="/productos?pagina={{ total_paginas }}&buscar={{ buscar if buscar else '' }}&filtro={{ filtro_activo }}" 
+            <a href="{{ url_for('productos.productos', pagina=total_paginas, buscar=buscar if buscar else '', filtro=filtro_activo) }}" 
                class="{% if pagina == total_paginas %}disabled{% endif %}">Última »</a>
         </div>
         {% endif %}

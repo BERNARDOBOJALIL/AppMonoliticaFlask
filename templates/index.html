@@ -69,8 +69,8 @@
     <div class="container">
         <h1>Bienvenido, {{ user }}</h1>
         <nav>
-            <a href="/productos">Gestionar Productos</a>
-            <a href="/logout" class="logout">Cerrar sesión</a>
+            <a href="{{ url_for('productos.productos') }}">Gestionar Productos</a>
+            <a href="{{ url_for('auth.logout') }}" class="logout">Cerrar sesión</a>
         </nav>
     </div>
 </body>
